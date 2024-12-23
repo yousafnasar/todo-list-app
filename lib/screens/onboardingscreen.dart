@@ -1,206 +1,134 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Onboardingscreen extends StatelessWidget {
-  const Onboardingscreen({super.key});
+class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  final PageController _pageController = PageController();
+  int _currentIndex = 0;
+
+  Future<void> _completeOnboarding(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboardingCompleted', true);
+    // Use Navigator.pushReplacement to go to home screen
+    Navigator.pushReplacementNamed(context, '/homescreen');
+  }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          width: screenWidth,
-          height: screenHeight,
-          decoration: const BoxDecoration(
-            color: Color(0xFFFAF9F9),
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+              children: [
+                _buildPage(
+                  "assets/images/onboarding1.png",
+                  "Welcome to Schedule Management",
+                  "Manage your daily tasks efficiently.",
+                ),
+                _buildPage(
+                  "assets/images/onboarding2.png",
+                  "Track Your Progress",
+                  "Stay on top of your goals with detailed progress tracking.",
+                ),
+                _buildPage(
+                  "assets/images/onboarding3.png",
+                  "Achieve More",
+                  "Stay organized and get more done!",
+                ),
+              ],
+            ),
           ),
-          child: Stack(
-            children: [
-              // Background
-              Positioned(
-                left: 0,
-                top: 0,
-                child: Container(
-                  width: screenWidth,
-                  height: screenHeight,
-                  decoration: const BoxDecoration(
-                    color: Color(0xAAF4C17F),
-                  ),
-                ),
-              ),
-
-              // Header Image
-              Positioned(
-                left: (screenWidth - 287) / 2,
-                top: 68,
-                child: Container(
-                  width: 287,
-                  height: 215,
-                  child: Center(
-                    child: Image.asset(
-                      'images/Done.png',
-                      width: screenWidth * 0.8,
-                      height: screenHeight * 0.3,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-              ),
-
-              // Welcome Text
-              Positioned(
-                left: (screenWidth - 250) / 2,
-                top: 294,
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      const TextSpan(
-                        text: 'Welcome back \nto\n',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                          height: 1.5,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'OUR REMINDER',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 24,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w700,
-                          height: 1.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-
-              // Email Field
-              Positioned(
-                left: 30,
-                top: 425,
-                child: _buildTextField('Enter your email'),
-              ),
-
-              // Password Field
-              Positioned(
-                left: 30,
-                top: 500,
-                child: _buildTextField('Enter password'),
-              ),
-
-              // Forgot Password
-              Positioned(
-                left: (screenWidth - 150) / 2,
-                top: 616,
-                child: const Text(
-                  'Forgot Password',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w400,
-                    height: 1.5,
-                  ),
-                ),
-              ),
-
-              // Sign In Button
-              Positioned(
-                left: (screenWidth - 315) / 2,
-                top: 700,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(315, 56),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    backgroundColor: const Color(0xFFD8605B),
-                    shadowColor: Colors.black26,
-                    elevation: 6,
-                  ),
-                  onPressed: () {
-                    // Navigate to HomeScreen
-                    Navigator.pushNamed(context, '/home');
-                  },
-                  child: const Text(
-                    'Sign In',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ),
-
-              // Sign Up Option
-              Positioned(
-                left: (screenWidth - 300) / 2,
-                top: 777,
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      const TextSpan(
-                        text: 'Don’t have an account? ',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                          height: 1.5,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'Sign Up',
-                        style: TextStyle(
-                          color: const Color(0xFFD8605B),
-                          fontSize: 14,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w700,
-                          height: 1.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
-        ),
+          _buildNavigationBar(context),
+        ],
       ),
     );
   }
 
-  // Reusable Text Field Widget
-  Widget _buildTextField(String hintText) {
-    return Container(
-      width: 325,
-      height: 51,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(22),
+  Widget _buildPage(String imagePath, String title, String subtitle) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(imagePath, height: 250),
+          const SizedBox(height: 20),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            subtitle,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 16),
+          ),
+        ],
       ),
-      padding: const EdgeInsets.only(left: 30),
-      alignment: Alignment.centerLeft,
-      child: Text(
-        hintText,
-        style: TextStyle(
-          color: Colors.black.withOpacity(0.7),
-          fontSize: 13,
-          fontFamily: 'Poppins',
-          fontWeight: FontWeight.w400,
-        ),
+    );
+  }
+
+  Widget _buildNavigationBar(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextButton(
+            onPressed: _currentIndex == 0
+                ? null
+                : () {
+                    _pageController.previousPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.ease,
+                    );
+                  },
+            child: const Text("Back"),
+          ),
+          Row(
+            children: List.generate(
+              3,
+              (index) => AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                width: _currentIndex == index ? 12 : 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color:
+                      _currentIndex == index ? Colors.blueAccent : Colors.grey,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: _currentIndex == 2
+                ? () => _completeOnboarding(context)
+                : () {
+                    _pageController.nextPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.ease,
+                    );
+                  },
+            child: Text(_currentIndex == 2 ? "Done" : "Next"),
+          ),
+        ],
       ),
     );
   }

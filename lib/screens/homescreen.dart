@@ -1,135 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:schedule_management/utils/colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:schedule_management/utils/navigation_provider.dart';
+import 'package:schedule_management/widgets/buttons.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      backgroundColor: Color(0xABF4C27F),
       body: SingleChildScrollView(
         child: Container(
           width: screenWidth,
-          height: screenHeight,
-          decoration: const BoxDecoration(color: Color(0xFFFAF9F9)),
-          child: Stack(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Background Container
-              Positioned(
-                left: 0,
-                top: 0,
-                child: Container(
-                  width: screenWidth,
-                  height: screenHeight * 0.5,
-                  decoration: const BoxDecoration(color: Color(0xAAF4C17F)),
-                ),
+              SizedBox(
+                height: 50,
               ),
-
-              // Image Section
-              Positioned(
-                left: 0,
-                top: screenHeight * 0.2,
-                child: Center(
-                  child: Image.asset(
-                    'images/Done.png',
-                    width: screenWidth * 0.8,
-                    height: screenHeight * 0.3,
-                    fit: BoxFit.contain,
-                  ),
-                ),
+              Image.asset('assets/images/Done.png'),
+              Text(
+                'WELCOME',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
-
-              // Welcome Text
-              Positioned(
-                left: screenWidth * 0.1,
-                top: screenHeight * 0.55,
-                child: Column(
-                  children: [
-                    Text(
-                      'Welcome to\nOUR REMINDER',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 24,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      width: screenWidth * 0.8,
-                      child: Text(
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum dictum tempus, interdum at dignissim metus. Ultricies sed nunc.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black.withOpacity(0.7),
-                          fontSize: 14,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                          height: 1.5,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              Text(
+                'OUR REMINDER',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
               ),
-
-              // Button
-              Positioned(
-                left: screenWidth * 0.1,
-                top: screenHeight * 0.8,
-                child: SizedBox(
-                  width: screenWidth * 0.8,
-                  height: 56,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      backgroundColor: AppColors.secondaryColor,
-                      padding: const EdgeInsets.all(15),
-                    ),
-                    child: const Text(
-                      'Get Started',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum dictum tempus, interdum at dignissim metus. Ultricies sed nunc.',
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              // Add the ElevatedButton at the bottom
-              Positioned(
-                left: (screenWidth - 315) / 2, // 315 is the button width
-                bottom: 30, // Distance from the bottom
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(315, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/schedule');
-                  },
-                  child: const Text(
-                    'Go to Schedule Screen',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
+              )
             ],
           ),
         ),
       ),
+      floatingActionButton: PrimaeyFloatingButton(
+          label: 'Get Started',
+          screenWidth: screenWidth,
+          icon: SvgPicture.asset(
+            'assets/icons/Vector.svg',
+            width: 22,
+            height: 12,
+          ),
+          onPressed: () {
+            Provider.of<NavigationProvider>(context, listen: false)
+                .navigateTo(context, '/registrationscreen');
+          },
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat),
     );
   }
 }
