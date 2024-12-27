@@ -8,10 +8,10 @@ class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
 
   @override
-  _DashboardScreenState createState() => _DashboardScreenState();
+  DashboardScreenState createState() => DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class DashboardScreenState extends State<DashboardScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -237,14 +237,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   /// Add Task Section
   Widget _buildAddTaskSection() {
-    final TextEditingController _taskController = TextEditingController();
+    final TextEditingController taskController = TextEditingController();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
         children: [
           Expanded(
             child: TextField(
-              controller: _taskController,
+              controller: taskController,
               decoration: const InputDecoration(
                 hintText: 'Enter task name',
                 border: OutlineInputBorder(),
@@ -254,13 +254,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
           const SizedBox(width: 8),
           ElevatedButton(
             onPressed: () {
-              final taskName = _taskController.text.trim();
+              final taskName = taskController.text.trim();
               if (taskName.isNotEmpty) {
                 _firestore.collection('tasks').add({
                   'name': taskName,
                   'isChecked': false,
                 });
-                _taskController.clear();
+                taskController.clear();
               }
             },
             child: const Text("Add"),

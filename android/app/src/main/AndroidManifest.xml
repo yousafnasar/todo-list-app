@@ -1,4 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+package="todo.list.app">
+    <!-- Change this to your desired package name -->
+
     <application
         android:label="schedule_managment"
         android:name="${applicationName}"

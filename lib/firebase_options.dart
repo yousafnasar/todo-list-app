@@ -70,10 +70,9 @@ class DefaultFirebaseOptions {
     messagingSenderId: '336118523897',
     projectId: 'project-00-59f7a',
     storageBucket: 'project-00-59f7a.firebasestorage.app',
-    androidClientId:
-        '336118523897-rktfoumf1krfuontrama695bdooo04s3.apps.googleusercontent.com',
-    iosClientId:
-        '336118523897-ghbn6qv2nokkljgng88lk11f7gcf2uhe.apps.googleusercontent.com',
+    androidClientId: '336118523897-rktfoumf1krfuontrama695bdooo04s3.apps.googleusercontent.com',
+    iosClientId: '336118523897-ghbn6qv2nokkljgng88lk11f7gcf2uhe.apps.googleusercontent.com',
     iosBundleId: 'com.example.scheduleManagment',
   );
+
 }
