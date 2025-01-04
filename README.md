@@ -42,7 +42,8 @@ todo_list_app/
 └── pubspec.yaml
 
 ## Mockups
-![App Mockup](assets\images\freepik__upload__98650.png)  <!-- Adjust the path as necessary -->
+![App Mockup](assets\images\freepik__upload__98650.png)
+ <!-- Adjust the path as necessary -->
 
 ### Design Explanation
 The app's design focuses on simplicity and usability, featuring intuitive navigation and clear calls to action. The onboarding process guides users through essential features, ensuring they understand how to use the app effectively.
