@@ -49,5 +49,5 @@ todo_list_app/
 The app's design focuses on simplicity and usability, featuring intuitive navigation and clear calls to action. The onboarding process guides users through essential features, ensuring they understand how to use the app effectively.
 
 ## Video Demo
-[Watch the video demonstration here](https://www.youtube.com/watch?v=your_video_link)  <!-- Replace with your actual video link -->
+[Watch the video demonstration here](https://youtu.be/GMLcrxqoWFU?si=QD9BGufe1CTfRhZz)  <!-- Replace with your actual video link -->
 
